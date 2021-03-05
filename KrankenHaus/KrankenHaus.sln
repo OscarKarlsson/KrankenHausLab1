@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospital", "Hospital\Hospital.csproj", "{E3BE9275-C9BF-4689-BCD3-AC1B185177A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hospital", "Hospital\Hospital.csproj", "{E3BE9275-C9BF-4689-BCD3-AC1B185177A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{82C8BE89-0A53-44E0-AC66-F678075B8EBE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{E3BE9275-C9BF-4689-BCD3-AC1B185177A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3BE9275-C9BF-4689-BCD3-AC1B185177A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3BE9275-C9BF-4689-BCD3-AC1B185177A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82C8BE89-0A53-44E0-AC66-F678075B8EBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82C8BE89-0A53-44E0-AC66-F678075B8EBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82C8BE89-0A53-44E0-AC66-F678075B8EBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82C8BE89-0A53-44E0-AC66-F678075B8EBE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
