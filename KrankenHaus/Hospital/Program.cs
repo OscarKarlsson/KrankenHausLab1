@@ -6,13 +6,8 @@ namespace Hospital
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Yo World!");
-
-            Console.WriteLine("Hello!! // Dessi");
-
-            Console.WriteLine("Hello!!! // Yumit");
-
-            Console.WriteLine("Heeej //Emanuel");
+            TestClass test = new TestClass();
+            test.EntityTest();
         }
     }
 }

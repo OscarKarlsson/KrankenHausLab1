@@ -16,5 +16,9 @@ namespace Core.Entities
         public string Name { get; set; }
         public DateTime DateOfBirth { get; set; }
         public int SicknessLevel { get; set; }
+        public override string ToString()
+        {
+            return $"Name: {Name}\nDate of birth: {DateOfBirth}\nSickness level: {SicknessLevel}";
+        }
     }
 }

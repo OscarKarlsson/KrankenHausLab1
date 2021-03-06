@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Core.Entities
 {
-    class Doctor : DataGenerator
+    public class Doctor : DataGenerator
     {
         public Doctor()
         {
@@ -18,5 +18,9 @@ namespace Core.Entities
         public int FatigueLevel { get; set; }
         public int SkillLevel { get; set; }
         public bool Burned { get; set; }
+        public override string ToString()
+        {
+            return $"Name: {Name}\nFatigue: {FatigueLevel}\nSkill: {SkillLevel}";
+        }
     }
 }
