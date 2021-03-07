@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hospital", "Hospital\Hospit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{82C8BE89-0A53-44E0-AC66-F678075B8EBE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrintManager", "PrintManager\PrintManager.csproj", "{D6BE2130-5E3A-43FE-B5EF-0CDAEC23D298}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{82C8BE89-0A53-44E0-AC66-F678075B8EBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82C8BE89-0A53-44E0-AC66-F678075B8EBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82C8BE89-0A53-44E0-AC66-F678075B8EBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6BE2130-5E3A-43FE-B5EF-0CDAEC23D298}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6BE2130-5E3A-43FE-B5EF-0CDAEC23D298}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6BE2130-5E3A-43FE-B5EF-0CDAEC23D298}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6BE2130-5E3A-43FE-B5EF-0CDAEC23D298}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
