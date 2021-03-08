@@ -23,6 +23,18 @@ namespace Simulation
         }
         public void AddDoctorToDepartment()
         {
+            for (int i = 0; i < hospital.DoctorsList.Count; i++)
+            {
+                if (hospital.DoctorsList[i].Department == Departments.IVA)
+                {
+                    break;
+                }
+                else if()
+                {
+
+                }
+            }
+
             //Add doctor to needed department
             //Ska prenumerera på ett event när doktor blir utbränd
         }
