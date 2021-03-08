@@ -32,7 +32,13 @@ namespace Simulation
         }
         public void UpdateFatigue()
         {
-            //1-3 ökar fatigue med varje gång metoden körs
+            Random rnd = new Random();
+            hospital.CurrentDoctor.FatigueLevel += rnd.Next(1, 3);
+            if (hospital.CurrentDoctor.FatigueLevel >= 20)
+            {
+                hospital.CurrentDoctor.Burned = true;
+                hospital.CurrentDoctor = null;
+            }
         }
     }
 }
