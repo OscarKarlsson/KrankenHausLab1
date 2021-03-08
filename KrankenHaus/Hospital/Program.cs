@@ -1,4 +1,5 @@
 ﻿using System;
+using Simulation;
 
 namespace Hospital
 {
@@ -6,8 +7,12 @@ namespace Hospital
     {
         static void Main(string[] args)
         {
-            TestClass test = new TestClass();
-            test.EntityTest();
+
+            var simulator = new Simulator();
+            
+
+            //TestClass test = new TestClass();
+            //test.EntityTest();
         }
     }
 }

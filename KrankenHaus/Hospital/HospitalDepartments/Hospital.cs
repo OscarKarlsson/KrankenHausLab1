@@ -31,6 +31,9 @@ namespace Hospital
             {
                 DoctorsList.Add(new Doctor());
             }
+
+            AmountPatientsAfterLife = 0;
+            AmountPatientsRecovered = 0;
         }     
     }
 }
