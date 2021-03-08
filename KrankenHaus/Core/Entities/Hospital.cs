@@ -12,7 +12,6 @@ namespace Core.Entities
         // tillfriskning sker. 
         public List<Patient> PatientsInQueue { get; set; }
         public List<Doctor> DoctorsList { get; set; }
-        public Doctor CurrentDoctor { get; set; }
         public int AmountPatientsAfterLife { get; set; }
         public int AmountPatientsRecovered { get; set; }
 

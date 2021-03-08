@@ -6,6 +6,8 @@ using System.Text;
 namespace Core.Entities   
 {
     public enum Departments { QUEUE, IVA, SANATORIUM }
+    public enum Status { Recovered, Dead, Sick }
+
     public class Patient : DataGenerator
     {
         public Patient()
@@ -14,7 +16,9 @@ namespace Core.Entities
             DateOfBirth = GenerateDOB();
             SicknessLevel = GenerateInt(0, 10);
             Department = Departments.QUEUE;
+            Status = Status.Sick;
         }
+        public Status Status { get; set; }
         public string Name { get; set; }
         public DateTime DateOfBirth { get; set; }
         public int SicknessLevel { get; set; }
