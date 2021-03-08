@@ -11,6 +11,8 @@ namespace Simulation
         public int MaxSanatorium = 10;
         public void StartSimulation()
         {
+            Testar testar = new Testar();
+            testar.EntityTest(hospital);
             //Kalla på AssignPatients...
             //Kalla på addDoctor...
         }
@@ -18,17 +20,17 @@ namespace Simulation
         {
             //Kollat mot MaxIva och MaxSanatorium.
             //Add patients to IVA and Sanatorium.
-            
-            
+
+
         }
         public void AddDoctorToDepartment()
         {
-            for (int i = 0; i < hospital.DoctorsList.Count; i++)
+            if (hospital.CurrentDoctor == null)
             {
-                if (hospital.CurrentDoctor == null)
+                if (hospital.DoctorsList.Count!= 0)
                 {
-                    hospital.CurrentDoctor = hospital.DoctorsList[i];
-                    hospital.DoctorsList[i].Department = Departments.IVA;
+                    hospital.DoctorsList[0].Department = Departments.IVA;
+                    hospital.CurrentDoctor = hospital.DoctorsList[0];
                 }
             }
         }
@@ -43,6 +45,13 @@ namespace Simulation
             if (hospital.CurrentDoctor.FatigueLevel >= 20)
             {
                 hospital.CurrentDoctor.Burned = true;
+                for (int i = 0; i < hospital.DoctorsList.Count; i++)
+                {
+                    if (hospital.CurrentDoctor.DoctorID == hospital.DoctorsList[i].DoctorID)
+                    {
+                        hospital.DoctorsList.RemoveAt(i);
+                    }
+                }
                 hospital.CurrentDoctor = null;
             }
         }
