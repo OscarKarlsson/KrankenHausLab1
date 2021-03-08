@@ -25,7 +25,7 @@ namespace Core.Entities
         public Departments Department { get; set; }
         public override string ToString()
         {
-            return $"Name: {Name}\nDate of birth: {DateOfBirth}\nSickness level: {SicknessLevel}";
+            return $"Name: {Name}\nDate of birth: {DateOfBirth}\nSickness level: {SicknessLevel}\nStatus: {Status}";
         }
     }
 }
