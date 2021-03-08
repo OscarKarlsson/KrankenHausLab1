@@ -25,5 +25,6 @@ namespace Core.Data
         {
             return rnd.Next(low, high);
         }
+
     }
 }

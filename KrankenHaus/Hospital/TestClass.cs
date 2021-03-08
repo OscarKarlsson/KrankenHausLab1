@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Hospital.HospitalDepartments;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,6 +11,19 @@ namespace Hospital
         
         public void EntityTest()
         {
+            Hospital testar = new Hospital();
+            
+
+            foreach (var Doctor in testar.DoctorsList)
+            {
+                Console.WriteLine(Doctor);
+            }
+
+            foreach (var Patient in testar.PatientsInQueue)
+            {
+                Console.WriteLine(Patient);
+            }        
+
             List<Patient> patients = new List<Patient>();
             List<Doctor> doctors = new List<Doctor>();
             for (int i = 0; i < 10; i++)

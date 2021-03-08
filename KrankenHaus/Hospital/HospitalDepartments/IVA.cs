@@ -11,8 +11,23 @@ namespace Hospital.HospitalDepartments
         // För varje justering av sjukdomsnivån så har patienter på IVA 10 % risk att få en höjd sjukdomsnivå
         // 20 % chans att sjukdomsnivån kvarstår
         // 70 % chans att sjukdomsnivån minskar
-        public List<Patient> PatientsIVA { get; set; }
+        public Patient[] PatientsIVA;
+        public IVA()
+        {
 
+        }
+
+        public Patient[] AddPatientsIVA()
+        {            
+
+            return PatientsIVA;
+        }
+
+        public void Developement()
+        {
+
+
+        }
 
     }
 }
