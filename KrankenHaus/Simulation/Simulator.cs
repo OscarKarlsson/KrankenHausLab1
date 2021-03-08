@@ -22,5 +22,13 @@ namespace Simulation
             //Add doctor to needed department
             //Ska prenumerera på ett event när doktor blir utbränd
         }
+        public void UpdateSickness()
+        {
+            //Uppdatera för alla (kö, iva, sanatorium)
+        }
+        public void UpdateFatigue()
+        {
+            //1-3 ökar fatigue med varje gång metoden körs
+        }
     }
 }

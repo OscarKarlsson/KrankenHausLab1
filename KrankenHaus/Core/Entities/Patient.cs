@@ -14,7 +14,7 @@ namespace Core.Entities
         {
             Name = GenerateName();
             DateOfBirth = GenerateDOB();
-            SicknessLevel = GenerateInt(0, 10);
+            SicknessLevel = GenerateInt(1, 9);
             Department = Departments.QUEUE;
             Status = Status.Sick;
         }

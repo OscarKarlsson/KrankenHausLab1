@@ -11,8 +11,7 @@ namespace Core.Data
         private string[] firstName = { "Oscar", "Karl", "Julius", "Bengt", "Sara", "Erika", "Sören", "Madelene",
             "Yumit", "Sigrid", "Herman", "Desiré", "Emanuel" };
         private string[] lastName = { "Karlsson", "Holstensson", "Bengtsson", "Friberg",
-            "Svensson", "Göransson", "Backman", "Johansson" };
-
+            "Svensson", "Göransson", "Backman", "Johansson", "Gyuler" };
         internal string GenerateName()
         {
             return $"{firstName[rnd.Next(0, firstName.Length)]} {lastName[rnd.Next(0, lastName.Length)]}";
