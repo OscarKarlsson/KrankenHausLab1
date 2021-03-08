@@ -1,7 +1,7 @@
 ﻿using System;
 using Simulation;
 
-namespace Hospital
+namespace Start
 {
     class Program
     {
@@ -9,7 +9,9 @@ namespace Hospital
         {
 
             var simulator = new Simulator();
-            
+            simulator.StartSimulation();
+
+
 
             //TestClass test = new TestClass();
             //test.EntityTest();

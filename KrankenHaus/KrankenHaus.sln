@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hospital", "Hospital\Hospital.csproj", "{E3BE9275-C9BF-4689-BCD3-AC1B185177A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalDepts", "Hospital\HospitalDepts.csproj", "{E3BE9275-C9BF-4689-BCD3-AC1B185177A7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{82C8BE89-0A53-44E0-AC66-F678075B8EBE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrintManager", "PrintManager\PrintManager.csproj", "{D6BE2130-5E3A-43FE-B5EF-0CDAEC23D298}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulation", "Simulation\Simulation.csproj", "{14D886B4-ACF7-45C0-843D-57A4D79712C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulation", "Simulation\Simulation.csproj", "{AB5CE3D7-A3D5-488F-8EDE-2687B6D1538B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Start", "Start\Start.csproj", "{A9DA881C-A291-4E0D-B457-0B5D502E57A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +31,14 @@ Global
 		{D6BE2130-5E3A-43FE-B5EF-0CDAEC23D298}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6BE2130-5E3A-43FE-B5EF-0CDAEC23D298}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6BE2130-5E3A-43FE-B5EF-0CDAEC23D298}.Release|Any CPU.Build.0 = Release|Any CPU
-		{14D886B4-ACF7-45C0-843D-57A4D79712C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{14D886B4-ACF7-45C0-843D-57A4D79712C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{14D886B4-ACF7-45C0-843D-57A4D79712C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{14D886B4-ACF7-45C0-843D-57A4D79712C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB5CE3D7-A3D5-488F-8EDE-2687B6D1538B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB5CE3D7-A3D5-488F-8EDE-2687B6D1538B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB5CE3D7-A3D5-488F-8EDE-2687B6D1538B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB5CE3D7-A3D5-488F-8EDE-2687B6D1538B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9DA881C-A291-4E0D-B457-0B5D502E57A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9DA881C-A291-4E0D-B457-0B5D502E57A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9DA881C-A291-4E0D-B457-0B5D502E57A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9DA881C-A291-4E0D-B457-0B5D502E57A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
