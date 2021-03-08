@@ -1,5 +1,6 @@
 ﻿using System;
 using Core.Entities;
+using System.Linq;
 
 namespace Simulation
 {
@@ -15,7 +16,10 @@ namespace Simulation
         }
         public void AssignPatientsToDepartments()
         {
-            //Add patients to IVA and Sanatorium
+            //Kollat mot MaxIva och MaxSanatorium.
+            //Add patients to IVA and Sanatorium.
+            
+            
         }
         public void AddDoctorToDepartment()
         {
