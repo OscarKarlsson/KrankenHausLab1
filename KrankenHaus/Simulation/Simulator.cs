@@ -25,18 +25,12 @@ namespace Simulation
         {
             for (int i = 0; i < hospital.DoctorsList.Count; i++)
             {
-                if (hospital.DoctorsList[i].Department == Departments.IVA)
+                if (hospital.CurrentDoctor == null)
                 {
-                    break;
-                }
-                else if()
-                {
-
+                    hospital.CurrentDoctor = hospital.DoctorsList[i];
+                    hospital.DoctorsList[i].Department = Departments.IVA;
                 }
             }
-
-            //Add doctor to needed department
-            //Ska prenumerera på ett event när doktor blir utbränd
         }
         public void UpdateSickness()
         {
