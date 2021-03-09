@@ -15,9 +15,6 @@ namespace Core.Entities
         public List<Doctor> DoctorsList { get; set; }
         public Doctor CurrentDoctorIVA { get; set; }
         public Doctor CurrentDoctorSanatorium { get; set; }
-        public int AmountPatientsAfterLife { get; set; }
-        public int AmountPatientsRecovered { get; set; }
-
         public Hospital()
         {
             Patients = new List<Patient>();
@@ -34,8 +31,6 @@ namespace Core.Entities
                 DoctorsList.Add(new Doctor());
             }
 
-            AmountPatientsAfterLife = 0;
-            AmountPatientsRecovered = 0;
         }
     }
 }

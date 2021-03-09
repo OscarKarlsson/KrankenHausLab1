@@ -1,5 +1,6 @@
 ﻿using System;
 using Simulation;
+using PrintManager.Print;
 
 namespace Start
 {
@@ -9,6 +10,8 @@ namespace Start
         {
 
             var simulator = new Simulator();
+            var consoleprint = new ConsolePrint();
+            simulator.ReportEventHandler += consoleprint.PrintFiveSeconds;
             simulator.StartSimulation();
             Console.ReadLine();
 

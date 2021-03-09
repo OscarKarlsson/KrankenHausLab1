@@ -2,6 +2,8 @@
 using Core.Entities;
 using System.Linq;
 using System.Threading;
+using Simulation.Eventargs;
+
 
 namespace Simulation
 {
@@ -14,38 +16,57 @@ namespace Simulation
         Random rnd = new Random();
         public int MaxIVA = 5;
         public int MaxSanatorium = 10;
-        public void PrintToConsole(object state)
+
+        public event EventHandler<ReportEventArgs> ReportEventHandler;
+        ReportEventArgs allinfo = new ReportEventArgs();
+        public void OnceADay(object state)
         {
+            Thread updateSicknessQueue = new Thread(UpdateSicknessQueue);
+            updateSicknessQueue.Start();
+
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("5 second past");
-            //Console.WriteLine($"How many patients died: {Dead}");
-            //Console.WriteLine($"How many patients checked out: {Recovered}\n");
+
+            allinfo.AmountDead = hospital.Patients.Where(p => p.Status == Status.Dead).Count();
+            allinfo.AmountDoctorsWaiting = hospital.DoctorsList.Count();
+            allinfo.AmountIVA = hospital.Patients.Where(p => p.Department == Departments.IVA).Count();
+            allinfo.AmountSanatorium = hospital.Patients.Where(p => p.Department == Departments.SANATORIUM).Count();
+            allinfo.AmountPatientsInQueue = hospital.Patients.Where(p => p.Department == Departments.QUEUE).Count();
+            allinfo.AmountRecovered = hospital.Patients.Where(p => p.Status == Status.Recovered).Count();
+            ReportEventHandler?.Invoke(this, allinfo);
+
             Console.ResetColor();
         }
         public void Second(object state)
         {
-            Thread second = new Thread(UpdateFatigue);
+            Thread updateFatigue = new Thread(UpdateFatigue);
             Thread updateSickness = new Thread(UpdateSickness);
-            second.Start();
-            second.Join();
-            updateSickness.Start();
-            Console.WriteLine(Thread.CurrentThread.ManagedThreadId.ToString()); ;
+            Thread addPatient = new Thread(AssignPatientsToDepartments);
 
-            Console.WriteLine("---------------------------------------------------------------------------------------");   
+            updateFatigue.Start();
+            updateFatigue.Join();
+            addPatient.Start();
+            updateSickness.Start();
+            //Console.WriteLine(Thread.CurrentThread.ManagedThreadId.ToString());
+
+            //Console.WriteLine("---------------------------------------------------------------------------------------");   
         }
         public void StartSimulation()
         {
+            
             TickSecond = new Timer(new TimerCallback(Second), null, 1000, 1000);
-            TickFiveSecond = new Timer(new TimerCallback(PrintToConsole), null, 5000, 5000);
+            TickFiveSecond = new Timer(new TimerCallback(OnceADay), null, 3000, 3000);
 
             while (hospital.Patients.Where(p => p.Department == Departments.CHECKEDOUT).Count() != 100)
             {
                 Thread.Sleep(1000);
             }
+            
             TickSecond.Dispose();
             TickFiveSecond.Dispose();
             Console.WriteLine("End of bi...!");
+
         }
+
         public void AssignPatientsToDepartments()
         {
 
@@ -122,10 +143,7 @@ namespace Simulation
                 if (patients.Status == Status.Sick)
                 {
                     int randomNumber = rnd.Next(1, 101);
-                    if (patients.Department == Departments.QUEUE)
-                    {
-                        SicknessQueue(randomNumber, patients);
-                    }
+
                     if (patients.Department == Departments.IVA)
                     {
                         SicknessIva(randomNumber, patients);
@@ -135,24 +153,64 @@ namespace Simulation
                         SicknessSanatorium(randomNumber, patients);
                     }
                 }
-                if (patients.SicknessLevel >= 10)
-                {
-                    patients.Status = Status.Dead;
-                    patients.Department = Departments.CHECKEDOUT;
-                }
-                if (patients.SicknessLevel <= 0)
-                {
-                    patients.Status = Status.Recovered;
-                    patients.Department = Departments.CHECKEDOUT;
-                }
+                ChangePatientStatus(patients);
             }
         }
+
+        public void ChangePatientStatus(Patient patients)
+        {
+            if (patients.SicknessLevel >= 10)
+            {
+                patients.Status = Status.Dead;
+                patients.Department = Departments.CHECKEDOUT;
+            }
+            if (patients.SicknessLevel <= 0)
+            {
+                patients.Status = Status.Recovered;
+                patients.Department = Departments.CHECKEDOUT;
+            }
+        }
+
+        public void UpdateSicknessQueue()
+        {
+            foreach (var patients in hospital.Patients)
+            {
+                // If patients already sick otherways do not change sickness level
+                if (patients.Status == Status.Sick)
+                {
+                    int randomNumber = rnd.Next(1, 101);
+
+                    if (patients.Department == Departments.QUEUE)
+                    {
+                        //Get rondom number for follow this rules=> 
+                        //80% risk för att få enhöjd sjukdomsnivå, 
+                        //15% chans att sjukdomsnivån kvarstår,
+                        //5% att naturlig tillfriskning sker
+                        if (randomNumber <= 80)
+                        {
+                            patients.SicknessLevel = patients.SicknessLevel + 1;
+                        }
+                        if (randomNumber >= 81 && randomNumber <= 95)
+                        {
+                            patients.SicknessLevel = patients.SicknessLevel;
+                        }
+                        if (randomNumber >= 96)
+                        {
+                            patients.SicknessLevel = patients.SicknessLevel - 1;
+                        }
+                    }
+                }
+                ChangePatientStatus(patients);
+            }
+
+        }
+
         public void SicknessSanatorium(int randomNumber, Patient patients)
         {
-            //a.För varje justering av sjukdomsnivån har patienterpåSanatoriet
-            //50 % risk för att fåen höjd sjukdomsnivå, 
-            //15 % chans att sjukdomsnivånkvarstår, 
-            //35 % att behandlingenhjälper och att sjukdomsnivån minskar
+            // För varje justering av sjukdomsnivån har patienterpåSanatoriet
+            // 50 % risk för att fåen höjd sjukdomsnivå, 
+            // 15 % chans att sjukdomsnivånkvarstår, 
+            // 35 % att behandlingenhjälper och att sjukdomsnivån minskar
             if (hospital.CurrentDoctorSanatorium != null)
             {
                 randomNumber += hospital.CurrentDoctorSanatorium.SkillLevel;
@@ -192,25 +250,6 @@ namespace Simulation
                 patients.SicknessLevel = patients.SicknessLevel - 1;
             }
         }
-        public void SicknessQueue(int randomNumber, Patient patients)
-        {
-            //Get rondom number for follow this rules=> 
-            //80% risk för att få enhöjd sjukdomsnivå, 
-            //15% chans att sjukdomsnivån kvarstår,
-            //5% att naturlig tillfriskning sker
-            if (randomNumber <= 80)
-            {
-                patients.SicknessLevel = patients.SicknessLevel + 1;
-            }
-            if (randomNumber >= 81 && randomNumber <= 95)
-            {
-                patients.SicknessLevel = patients.SicknessLevel;
-            }
-            if (randomNumber >= 96)
-            {
-                patients.SicknessLevel = patients.SicknessLevel - 1;
-            }
-        }
         public void UpdateFatigue()
         {
             UpdateFatigueIVA();
@@ -221,8 +260,8 @@ namespace Simulation
             AddDoctorToIVA();
             if (hospital.CurrentDoctorIVA != null)
             {
-                hospital.CurrentDoctorIVA.FatigueLevel += rnd.Next(1, 10);
-                Console.WriteLine($"{hospital.CurrentDoctorIVA.Name} fatigue: {hospital.CurrentDoctorIVA.FatigueLevel} IVA");
+                hospital.CurrentDoctorIVA.FatigueLevel += rnd.Next(1, 4);
+                //Console.WriteLine($"{hospital.CurrentDoctorIVA.Name} fatigue: {hospital.CurrentDoctorIVA.FatigueLevel} IVA");
                 if (hospital.CurrentDoctorIVA.FatigueLevel >= 20)
                 {
                     hospital.CurrentDoctorIVA = null;
@@ -236,8 +275,8 @@ namespace Simulation
 
             if (hospital.CurrentDoctorSanatorium != null)
             {
-                hospital.CurrentDoctorSanatorium.FatigueLevel += rnd.Next(1, 10);
-                Console.WriteLine($"{hospital.CurrentDoctorSanatorium.Name} fatigue: {hospital.CurrentDoctorSanatorium.FatigueLevel} Sanatorium");
+                hospital.CurrentDoctorSanatorium.FatigueLevel += rnd.Next(1, 4);
+                //Console.WriteLine($"{hospital.CurrentDoctorSanatorium.Name} fatigue: {hospital.CurrentDoctorSanatorium.FatigueLevel} Sanatorium");
                 if (hospital.CurrentDoctorSanatorium.FatigueLevel >= 20)
                 {
                     hospital.CurrentDoctorSanatorium = null;
