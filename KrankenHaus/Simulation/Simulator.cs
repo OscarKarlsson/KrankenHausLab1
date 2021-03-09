@@ -124,6 +124,10 @@ namespace Simulation
             //50 % risk för att fåen höjd sjukdomsnivå, 
             //15 % chans att sjukdomsnivånkvarstår, 
             //35 % att behandlingenhjälper och att sjukdomsnivån minskar
+            if (hospital.CurrentDoctorSanatorium != null)
+            {
+                randomNumber += hospital.CurrentDoctorSanatorium.SkillLevel;
+            }
             if (randomNumber <= 50)
             {
                 patients.SicknessLevel = patients.SicknessLevel + 1;
