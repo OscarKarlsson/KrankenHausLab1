@@ -17,38 +17,25 @@ namespace Simulation
         
         public void Second(object state)
         {
-
-            //Thread updateFatigue = new Thread(UpdateFatigue);
-
-            //Thread updateSickness = new Thread(UpdateSickness);
-            //Thread assignPatientsToDepartments = new Thread(AssignPatientsToDepartments);
-
-
-            //updateFatigue.Priority = ThreadPriority.Highest;
-            //updateFatigue.Start();
-
-
-            //updateSickness.Start();
-            //assignPatientsToDepartments.Start();
-            AssignPatientsToDepartments();
-            UpdateFatigue();
-            UpdateSickness();
+            Thread second = new Thread(UpdateFatigue);
+            second.Start();
+            second.Join();
+            Console.WriteLine(Thread.CurrentThread.ManagedThreadId.ToString()); ;
             
+            Thread.Sleep(50000);
 
-            //testar.EntityTest(hospital);
             Console.WriteLine("---------------------------------------------------------------------------------------");
             
         }
         public void StartSimulation()
         {
-
             TickSecond = new Timer(new TimerCallback(Second), null, 1000, 1000);
-            Thread.Sleep(10000);
-                
+            while (hospital.Patients.Where(p => p.Department == Departments.CHECKEDOUT).Count() != 100)
+            {
+                Thread.Sleep(1000);
+            }
             Console.WriteLine("End of bi...!");
-
-            //Kalla på AssignPatients...
-            //Kalla på addDoctor...
+            
         }
         public void AssignPatientsToDepartments()
         {
@@ -220,7 +207,7 @@ namespace Simulation
                 patients.SicknessLevel = patients.SicknessLevel - 1;
             }
         }
-        public void UpdateFatigue()
+        public void UpdateFatigue(object state)
         {
 
             UpdateFatigueIVA();
@@ -235,9 +222,9 @@ namespace Simulation
                 Console.WriteLine($"{hospital.CurrentDoctorIVA.Name} fatigue: {hospital.CurrentDoctorIVA.FatigueLevel} IVA");
                 if (hospital.CurrentDoctorIVA.FatigueLevel >= 20)
                 {
-                    Console.WriteLine("//////////////////////////////////////////////////////////////////////////");
-                    Console.WriteLine(hospital.CurrentDoctorIVA.Name);
-                    Console.WriteLine("//////////////////////////////////////////////////////////////////////////");
+                    //Console.WriteLine("////////////////////////////////////////////////////////////////////////// IVA");
+                    //Console.WriteLine(hospital.CurrentDoctorIVA.Name);
+                    //Console.WriteLine("//////////////////////////////////////////////////////////////////////////");
                     hospital.CurrentDoctorIVA = null;
                     AddDoctorToIVA();
                 }
@@ -253,9 +240,9 @@ namespace Simulation
                 Console.WriteLine($"{hospital.CurrentDoctorSanatorium.Name} fatigue: {hospital.CurrentDoctorSanatorium.FatigueLevel} Sanatorium");
                 if (hospital.CurrentDoctorSanatorium.FatigueLevel >= 20)
                 {
-                    Console.WriteLine("//////////////////////////////////////////////////////////////////////////");
-                    Console.WriteLine(hospital.CurrentDoctorSanatorium.Name);
-                    Console.WriteLine("//////////////////////////////////////////////////////////////////////////");
+                    //Console.WriteLine("////////////////////////////////////////////////////////////////////////// Sanatorium");
+                    //Console.WriteLine(hospital.CurrentDoctorSanatorium.Name);
+                    //Console.WriteLine("//////////////////////////////////////////////////////////////////////////");
                     hospital.CurrentDoctorSanatorium = null;
                     AddDoctorToSanatorium();
                 }
