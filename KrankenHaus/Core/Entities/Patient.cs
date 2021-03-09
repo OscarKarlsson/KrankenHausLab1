@@ -25,14 +25,7 @@ namespace Core.Entities
         public Departments Department { get; set; }
         public override string ToString()
         {
-            if (Department != Departments.QUEUE && Department != Departments.CHECKEDOUT)
-            {
                 return $"Name: {Name}\nDate of birth: {DateOfBirth}\nSickness level: {SicknessLevel}\nStatus: {Status}\nDept: {Department.ToString()}\n";
-            }
-            else
-            {
-                return "";
-            }
         }
     }
 }
