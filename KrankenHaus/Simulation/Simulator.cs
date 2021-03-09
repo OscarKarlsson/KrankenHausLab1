@@ -33,10 +33,9 @@ namespace Simulation
             allinfo.AmountPatientsInQueue = hospital.Patients.Where(p => p.Department == Departments.QUEUE).Count();
             allinfo.AmountRecovered = hospital.Patients.Where(p => p.Status == Status.Recovered).Count();
             ReportEventHandler?.Invoke(this, allinfo);
-
             Console.ResetColor();
         }
-        public void Second(object state)
+        public void EverySecond(object state)
         {
             Thread updateFatigue = new Thread(UpdateFatigue);
             Thread updateSickness = new Thread(UpdateSickness);
@@ -46,14 +45,12 @@ namespace Simulation
             updateFatigue.Join();
             addPatient.Start();
             updateSickness.Start();
-            //Console.WriteLine(Thread.CurrentThread.ManagedThreadId.ToString());
-
-            //Console.WriteLine("---------------------------------------------------------------------------------------");   
+            
         }
         public void StartSimulation()
         {
             
-            TickSecond = new Timer(new TimerCallback(Second), null, 1000, 1000);
+            TickSecond = new Timer(new TimerCallback(EverySecond), null, 1000, 1000);
             TickFiveSecond = new Timer(new TimerCallback(OnceADay), null, 3000, 3000);
 
             while (hospital.Patients.Where(p => p.Department == Departments.CHECKEDOUT).Count() != 100)
