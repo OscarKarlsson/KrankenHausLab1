@@ -14,7 +14,14 @@ namespace Simulation
         Random rnd = new Random();
         public int MaxIVA = 5;
         public int MaxSanatorium = 10;
-        
+        public void PrintToConsole(object state)
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine($"How many patients died: {Dead}");
+            Console.WriteLine($"How many patients checked out: {Recovered}\n");
+            Console.ResetColor();
+        }
+
         public void Second(object state)
         {
             Thread second = new Thread(UpdateFatigue);
@@ -30,6 +37,7 @@ namespace Simulation
         public void StartSimulation()
         {
             TickSecond = new Timer(new TimerCallback(Second), null, 1000, 1000);
+            TickFiveSecond = new Timer(new TimerCallback(PrintToConsole), null, 10000, 10000);
             while (hospital.Patients.Where(p => p.Department == Departments.CHECKEDOUT).Count() != 100)
             {
                 Thread.Sleep(1000);
