@@ -13,28 +13,28 @@ namespace Simulation
         public void StartSimulation()
         {
             Testar testar = new Testar();
-            AssignPatientsToDepartments();
-            AddDoctorToSanatorium();
-            AddDoctorToIVA();
-            UpdateSickness();
-            Console.WriteLine("-------------");
-            testar.EntityTest(hospital);
-            AssignPatientsToDepartments();
-            UpdateSickness();
-            Console.WriteLine("-------------");
-            testar.EntityTest(hospital);
-            AssignPatientsToDepartments();
-            UpdateSickness();
-            Console.WriteLine("-------------");
-            testar.EntityTest(hospital);
-            AssignPatientsToDepartments();
-            UpdateSickness();
-            Console.WriteLine("-------------");
-            testar.EntityTest(hospital);
-            AssignPatientsToDepartments();
-            UpdateSickness();
-            Console.WriteLine("-------------");
-            testar.EntityTest(hospital);
+            //AssignPatientsToDepartments();
+            //AddDoctorToSanatorium();
+            //AddDoctorToIVA();
+            //UpdateSickness();
+            //Console.WriteLine("-------------");
+            //testar.EntityTest(hospital);
+            //AssignPatientsToDepartments();
+            //UpdateSickness();
+            //Console.WriteLine("-------------");
+            //testar.EntityTest(hospital);
+            //AssignPatientsToDepartments();
+            //UpdateSickness();
+            //Console.WriteLine("-------------");
+            //testar.EntityTest(hospital);
+            //AssignPatientsToDepartments();
+            //UpdateSickness();
+            //Console.WriteLine("-------------");
+            //testar.EntityTest(hospital);
+            //AssignPatientsToDepartments();
+            //UpdateSickness();
+            //Console.WriteLine("-------------");
+            //testar.EntityTest(hospital);
             //Kalla på AssignPatients...
             //Kalla på addDoctor...
         }
@@ -91,8 +91,6 @@ namespace Simulation
                 {
                     hospital.DoctorsList[0].Department = Departments.IVA;
                     hospital.CurrentDoctorIVA = hospital.DoctorsList[0];
-                    
-                    Console.WriteLine($"Added {hospital.DoctorsList[0].Name} IVA");
                     hospital.DoctorsList.RemoveAt(0);
                 }
             }
@@ -105,7 +103,7 @@ namespace Simulation
                 {
                     hospital.DoctorsList[0].Department = Departments.SANATORIUM;
                     hospital.CurrentDoctorSanatorium = hospital.DoctorsList[0];
-                    Console.WriteLine($"Added {hospital.DoctorsList[0].Name} Sanatorium");
+
                     hospital.DoctorsList.RemoveAt(0);
                 }
             }
@@ -210,33 +208,19 @@ namespace Simulation
         }
         public void UpdateFatigueIVA()
         {            
-            hospital.CurrentDoctorIVA.FatigueLevel += rnd.Next(1, 3);
+            hospital.CurrentDoctorIVA.FatigueLevel += rnd.Next(1, 10);
+            Console.WriteLine($"{hospital.CurrentDoctorIVA.Name} fatigue: {hospital.CurrentDoctorIVA.FatigueLevel} IVA");
             if (hospital.CurrentDoctorIVA.FatigueLevel >= 20)
             {
-                hospital.CurrentDoctorIVA.Burned = true;
-                for (int i = 0; i < hospital.DoctorsList.Count; i++)
-                {
-                    if (hospital.CurrentDoctorIVA.DoctorID == hospital.DoctorsList[i].DoctorID)
-                    {
-                        hospital.DoctorsList.RemoveAt(i);
-                    }
-                }
                 hospital.CurrentDoctorIVA = null;
             }
         }
         public void UpdateFatigueSanatorium()
         {
-            hospital.CurrentDoctorSanatorium.FatigueLevel += rnd.Next(1, 3);
+            hospital.CurrentDoctorSanatorium.FatigueLevel += rnd.Next(1, 10);
+            Console.WriteLine($"{hospital.CurrentDoctorSanatorium.Name} fatigue: {hospital.CurrentDoctorSanatorium.FatigueLevel} Sanatorium");
             if (hospital.CurrentDoctorSanatorium.FatigueLevel >= 20)
             {
-                hospital.CurrentDoctorSanatorium.Burned = true;
-                for (int i = 0; i < hospital.DoctorsList.Count; i++)
-                {
-                    if (hospital.CurrentDoctorSanatorium.DoctorID == hospital.DoctorsList[i].DoctorID)
-                    {
-                        hospital.DoctorsList.RemoveAt(i);
-                    }
-                }
                 hospital.CurrentDoctorSanatorium = null;
             }
         }
