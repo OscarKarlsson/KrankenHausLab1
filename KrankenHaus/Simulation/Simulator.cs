@@ -1,40 +1,52 @@
 ﻿using System;
 using Core.Entities;
 using System.Linq;
+using System.Threading;
 
 namespace Simulation
 {
     public class Simulator
     {
         Hospital hospital = new Hospital();
+        static Timer TickSecond = null;
+        static Timer TickFiveSecond = null;
+        Testar testar = new Testar();
         Random rnd = new Random();
         public int MaxIVA = 5;
         public int MaxSanatorium = 10;
+        
+        public void Second(object state)
+        {
+
+            //Thread updateFatigue = new Thread(UpdateFatigue);
+
+            //Thread updateSickness = new Thread(UpdateSickness);
+            //Thread assignPatientsToDepartments = new Thread(AssignPatientsToDepartments);
+
+
+            //updateFatigue.Priority = ThreadPriority.Highest;
+            //updateFatigue.Start();
+
+
+            //updateSickness.Start();
+            //assignPatientsToDepartments.Start();
+            AssignPatientsToDepartments();
+            UpdateFatigue();
+            UpdateSickness();
+            
+
+            //testar.EntityTest(hospital);
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+            
+        }
         public void StartSimulation()
         {
-            Testar testar = new Testar();
-            //AssignPatientsToDepartments();
-            //AddDoctorToSanatorium();
-            //AddDoctorToIVA();
-            //UpdateSickness();
-            //Console.WriteLine("-------------");
-            //testar.EntityTest(hospital);
-            //AssignPatientsToDepartments();
-            //UpdateSickness();
-            //Console.WriteLine("-------------");
-            //testar.EntityTest(hospital);
-            //AssignPatientsToDepartments();
-            //UpdateSickness();
-            //Console.WriteLine("-------------");
-            //testar.EntityTest(hospital);
-            //AssignPatientsToDepartments();
-            //UpdateSickness();
-            //Console.WriteLine("-------------");
-            //testar.EntityTest(hospital);
-            //AssignPatientsToDepartments();
-            //UpdateSickness();
-            //Console.WriteLine("-------------");
-            //testar.EntityTest(hospital);
+
+            TickSecond = new Timer(new TimerCallback(Second), null, 1000, 1000);
+            Thread.Sleep(10000);
+                
+            Console.WriteLine("End of bi...!");
+
             //Kalla på AssignPatients...
             //Kalla på addDoctor...
         }
@@ -48,46 +60,48 @@ namespace Simulation
             int patientsInSanitorium = hospital.Patients.Where(p => p.Department == Departments.SANATORIUM).Count();
 
             //Checking if patientsInIva is less than MaxIVA.
-            while (patientsInIva < MaxIVA)
+
+            //Iterating through patients list to find patients in queue. 
+            for (int i = 0; i < hospital.Patients.Count && patientsInIva < MaxIVA; i++)
             {
-                //Iterating through patients list to find patients in queue. 
-                for (int i = 0; i < hospital.Patients.Count && patientsInIva < MaxIVA; i++)
+                //Changing department to IVA and adding 1 to patientsInIva.
+                if (hospital.Patients[i].Department == Departments.QUEUE)
                 {
-                    //Changing department to IVA and adding 1 to patientsInIva.
-                    if (hospital.Patients[i].Department == Departments.QUEUE)
+                    if (hospital.Patients[i].Status == Status.Sick)
                     {
-                        if (hospital.Patients[i].Status == Status.Sick)
-                        {
-                            hospital.Patients[i].Department = Departments.IVA;
-                            patientsInIva++;
-                        }
+                        hospital.Patients[i].Department = Departments.IVA;
+                        patientsInIva++;
                     }
                 }
             }
 
             //Checking if patientsInSanitorium is less than MaxSanitorium.
-            while (patientsInSanitorium < MaxSanatorium)
+
+            //Iterating through patients list to find patients in queue. 
+            for (int i = 0; i < hospital.Patients.Count && patientsInSanitorium < MaxSanatorium; i++)
             {
-                //Iterating through patients list to find patients in queue. 
-                for (int i = 0; i < hospital.Patients.Count && patientsInSanitorium < MaxSanatorium; i++)
+                //Changing department to Sanitorium and adding 1 to patientsInSanitorium.
+                if (hospital.Patients[i].Department == Departments.QUEUE)
                 {
-                    //Changing department to Sanitorium and adding 1 to patientsInSanitorium.
-                    if (hospital.Patients[i].Department == Departments.QUEUE)
+                    if (hospital.Patients[i].Status == Status.Sick)
                     {
-                        if (hospital.Patients[i].Status == Status.Sick)
-                        {
-                            hospital.Patients[i].Department = Departments.SANATORIUM;
-                            patientsInSanitorium++;
-                        }
+                        hospital.Patients[i].Department = Departments.SANATORIUM;
+                        patientsInSanitorium++;
                     }
                 }
             }
+
         }
+        //public void AddDoctor()
+        //{
+        //    AddDoctorToIVA();
+        //    AddDoctorToSanatorium();
+        //}
         public void AddDoctorToIVA()
         {
-            if (hospital.CurrentDoctorIVA == null)
+            if (hospital.CurrentDoctorIVA == null && hospital.DoctorsList.Count != 0)
             {
-                if (hospital.DoctorsList.Count!= 0)
+                if (hospital.DoctorsList.Count != 0)
                 {
                     hospital.DoctorsList[0].Department = Departments.IVA;
                     hospital.CurrentDoctorIVA = hospital.DoctorsList[0];
@@ -97,7 +111,7 @@ namespace Simulation
         }
         public void AddDoctorToSanatorium()
         {
-            if (hospital.CurrentDoctorSanatorium == null)
+            if (hospital.CurrentDoctorSanatorium == null && hospital.DoctorsList.Count != 0)
             {
                 if (hospital.DoctorsList.Count != 0)
                 {
@@ -127,7 +141,7 @@ namespace Simulation
                     }
                     if (patients.Department == Departments.SANATORIUM)
                     {
-                        SicknessSanatorium(randomNumber,patients);
+                        SicknessSanatorium(randomNumber, patients);
                     }
                 }
                 if (patients.SicknessLevel >= 10)
@@ -206,22 +220,45 @@ namespace Simulation
                 patients.SicknessLevel = patients.SicknessLevel - 1;
             }
         }
+        public void UpdateFatigue()
+        {
+
+            UpdateFatigueIVA();
+            UpdateFatigueSanatorium();
+        }
         public void UpdateFatigueIVA()
-        {            
-            hospital.CurrentDoctorIVA.FatigueLevel += rnd.Next(1, 10);
-            Console.WriteLine($"{hospital.CurrentDoctorIVA.Name} fatigue: {hospital.CurrentDoctorIVA.FatigueLevel} IVA");
-            if (hospital.CurrentDoctorIVA.FatigueLevel >= 20)
+        {
+            AddDoctorToIVA();
+            if (hospital.CurrentDoctorIVA != null)
             {
-                hospital.CurrentDoctorIVA = null;
+                hospital.CurrentDoctorIVA.FatigueLevel += rnd.Next(1, 10);
+                Console.WriteLine($"{hospital.CurrentDoctorIVA.Name} fatigue: {hospital.CurrentDoctorIVA.FatigueLevel} IVA");
+                if (hospital.CurrentDoctorIVA.FatigueLevel >= 20)
+                {
+                    Console.WriteLine("//////////////////////////////////////////////////////////////////////////");
+                    Console.WriteLine(hospital.CurrentDoctorIVA.Name);
+                    Console.WriteLine("//////////////////////////////////////////////////////////////////////////");
+                    hospital.CurrentDoctorIVA = null;
+                    AddDoctorToIVA();
+                }
             }
         }
         public void UpdateFatigueSanatorium()
         {
-            hospital.CurrentDoctorSanatorium.FatigueLevel += rnd.Next(1, 10);
-            Console.WriteLine($"{hospital.CurrentDoctorSanatorium.Name} fatigue: {hospital.CurrentDoctorSanatorium.FatigueLevel} Sanatorium");
-            if (hospital.CurrentDoctorSanatorium.FatigueLevel >= 20)
+            AddDoctorToSanatorium();
+
+            if (hospital.CurrentDoctorSanatorium != null)
             {
-                hospital.CurrentDoctorSanatorium = null;
+                hospital.CurrentDoctorSanatorium.FatigueLevel += rnd.Next(1, 10);
+                Console.WriteLine($"{hospital.CurrentDoctorSanatorium.Name} fatigue: {hospital.CurrentDoctorSanatorium.FatigueLevel} Sanatorium");
+                if (hospital.CurrentDoctorSanatorium.FatigueLevel >= 20)
+                {
+                    Console.WriteLine("//////////////////////////////////////////////////////////////////////////");
+                    Console.WriteLine(hospital.CurrentDoctorSanatorium.Name);
+                    Console.WriteLine("//////////////////////////////////////////////////////////////////////////");
+                    hospital.CurrentDoctorSanatorium = null;
+                    AddDoctorToSanatorium();
+                }
             }
         }
     }
