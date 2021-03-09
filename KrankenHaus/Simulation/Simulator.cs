@@ -64,14 +64,25 @@ namespace Simulation
                 }
             }
         }
-        public void AddDoctorToDepartment()
+        public void AddDoctorToIVA()
         {
-            if (hospital.CurrentDoctor == null)
+            if (hospital.CurrentDoctorIVA == null)
             {
                 if (hospital.DoctorsList.Count!= 0)
                 {
                     hospital.DoctorsList[0].Department = Departments.IVA;
-                    hospital.CurrentDoctor = hospital.DoctorsList[0];
+                    hospital.CurrentDoctorIVA = hospital.DoctorsList[0];
+                }
+            }
+        }
+        public void AddDoctorToSanatorium()
+        {
+            if (hospital.CurrentDoctorSanatorium == null)
+            {
+                if (hospital.DoctorsList.Count != 0)
+                {
+                    hospital.DoctorsList[0].Department = Departments.SANATORIUM;
+                    hospital.CurrentDoctorSanatorium = hospital.DoctorsList[0];
                 }
             }
         }
@@ -132,9 +143,9 @@ namespace Simulation
             //b.på IVA så är chansen för tillfrisknande ett steg 70%, 
             //20% att sjukdomsnivån äroförändrad och 
             //10% att patienten blir sämre.
-            if (hospital.CurrentDoctor != null)
+            if (hospital.CurrentDoctorIVA != null)
             {
-                randomNumber += hospital.CurrentDoctor.SkillLevel;
+                randomNumber += hospital.CurrentDoctorIVA.SkillLevel;
             }
             if (randomNumber <= 10)
             {
