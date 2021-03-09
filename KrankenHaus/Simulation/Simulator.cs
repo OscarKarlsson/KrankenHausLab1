@@ -17,33 +17,34 @@ namespace Simulation
         public void PrintToConsole(object state)
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine($"How many patients died: {Dead}");
-            Console.WriteLine($"How many patients checked out: {Recovered}\n");
+            Console.WriteLine("5 second past");
+            //Console.WriteLine($"How many patients died: {Dead}");
+            //Console.WriteLine($"How many patients checked out: {Recovered}\n");
             Console.ResetColor();
         }
-
         public void Second(object state)
         {
             Thread second = new Thread(UpdateFatigue);
+            Thread updateSickness = new Thread(UpdateSickness);
             second.Start();
             second.Join();
+            updateSickness.Start();
             Console.WriteLine(Thread.CurrentThread.ManagedThreadId.ToString()); ;
-            
-            Thread.Sleep(50000);
 
-            Console.WriteLine("---------------------------------------------------------------------------------------");
-            
+            Console.WriteLine("---------------------------------------------------------------------------------------");   
         }
         public void StartSimulation()
         {
             TickSecond = new Timer(new TimerCallback(Second), null, 1000, 1000);
-            TickFiveSecond = new Timer(new TimerCallback(PrintToConsole), null, 10000, 10000);
+            TickFiveSecond = new Timer(new TimerCallback(PrintToConsole), null, 5000, 5000);
+
             while (hospital.Patients.Where(p => p.Department == Departments.CHECKEDOUT).Count() != 100)
             {
                 Thread.Sleep(1000);
             }
+            TickSecond.Dispose();
+            TickFiveSecond.Dispose();
             Console.WriteLine("End of bi...!");
-            
         }
         public void AssignPatientsToDepartments()
         {
@@ -87,11 +88,6 @@ namespace Simulation
             }
 
         }
-        //public void AddDoctor()
-        //{
-        //    AddDoctorToIVA();
-        //    AddDoctorToSanatorium();
-        //}
         public void AddDoctorToIVA()
         {
             if (hospital.CurrentDoctorIVA == null && hospital.DoctorsList.Count != 0)
@@ -215,9 +211,8 @@ namespace Simulation
                 patients.SicknessLevel = patients.SicknessLevel - 1;
             }
         }
-        public void UpdateFatigue(object state)
+        public void UpdateFatigue()
         {
-
             UpdateFatigueIVA();
             UpdateFatigueSanatorium();
         }
@@ -230,9 +225,6 @@ namespace Simulation
                 Console.WriteLine($"{hospital.CurrentDoctorIVA.Name} fatigue: {hospital.CurrentDoctorIVA.FatigueLevel} IVA");
                 if (hospital.CurrentDoctorIVA.FatigueLevel >= 20)
                 {
-                    //Console.WriteLine("////////////////////////////////////////////////////////////////////////// IVA");
-                    //Console.WriteLine(hospital.CurrentDoctorIVA.Name);
-                    //Console.WriteLine("//////////////////////////////////////////////////////////////////////////");
                     hospital.CurrentDoctorIVA = null;
                     AddDoctorToIVA();
                 }
@@ -248,9 +240,6 @@ namespace Simulation
                 Console.WriteLine($"{hospital.CurrentDoctorSanatorium.Name} fatigue: {hospital.CurrentDoctorSanatorium.FatigueLevel} Sanatorium");
                 if (hospital.CurrentDoctorSanatorium.FatigueLevel >= 20)
                 {
-                    //Console.WriteLine("////////////////////////////////////////////////////////////////////////// Sanatorium");
-                    //Console.WriteLine(hospital.CurrentDoctorSanatorium.Name);
-                    //Console.WriteLine("//////////////////////////////////////////////////////////////////////////");
                     hospital.CurrentDoctorSanatorium = null;
                     AddDoctorToSanatorium();
                 }
