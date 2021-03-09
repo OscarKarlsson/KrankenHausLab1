@@ -183,21 +183,36 @@ namespace Simulation
             }
         }
 
-        public void UpdateFatigue()
-        {
-            Random rnd = new Random();
-            hospital.CurrentDoctor.FatigueLevel += rnd.Next(1, 3);
-            if (hospital.CurrentDoctor.FatigueLevel >= 20)
+        public void UpdateFatigueIVA()
+        {            
+            hospital.CurrentDoctorIVA.FatigueLevel += rnd.Next(1, 3);
+            if (hospital.CurrentDoctorIVA.FatigueLevel >= 20)
             {
-                hospital.CurrentDoctor.Burned = true;
+                hospital.CurrentDoctorIVA.Burned = true;
                 for (int i = 0; i < hospital.DoctorsList.Count; i++)
                 {
-                    if (hospital.CurrentDoctor.DoctorID == hospital.DoctorsList[i].DoctorID)
+                    if (hospital.CurrentDoctorIVA.DoctorID == hospital.DoctorsList[i].DoctorID)
                     {
                         hospital.DoctorsList.RemoveAt(i);
                     }
                 }
-                hospital.CurrentDoctor = null;
+                hospital.CurrentDoctorIVA = null;
+            }
+        }
+        public void UpdateFatigueSanatorium()
+        {
+            hospital.CurrentDoctorSanatorium.FatigueLevel += rnd.Next(1, 3);
+            if (hospital.CurrentDoctorSanatorium.FatigueLevel >= 20)
+            {
+                hospital.CurrentDoctorSanatorium.Burned = true;
+                for (int i = 0; i < hospital.DoctorsList.Count; i++)
+                {
+                    if (hospital.CurrentDoctorSanatorium.DoctorID == hospital.DoctorsList[i].DoctorID)
+                    {
+                        hospital.DoctorsList.RemoveAt(i);
+                    }
+                }
+                hospital.CurrentDoctorSanatorium = null;
             }
         }
     }
