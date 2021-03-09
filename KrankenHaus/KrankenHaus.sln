@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{82C8BE89-0A53-44E0-AC66-F678075B8EBE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrintManager", "PrintManager\PrintManager.csproj", "{D6BE2130-5E3A-43FE-B5EF-0CDAEC23D298}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB5CE3D7-A3D5-488F-8EDE-2687B6D1538B} = {AB5CE3D7-A3D5-488F-8EDE-2687B6D1538B}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simulation", "Simulation\Simulation.csproj", "{AB5CE3D7-A3D5-488F-8EDE-2687B6D1538B}"
 EndProject

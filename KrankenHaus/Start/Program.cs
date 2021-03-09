@@ -10,6 +10,7 @@ namespace Start
 
             var simulator = new Simulator();
             simulator.StartSimulation();
+            Console.ReadLine();
 
 
 

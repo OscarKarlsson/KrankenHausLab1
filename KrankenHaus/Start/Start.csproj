@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PrintManager\PrintManager.csproj" />
     <ProjectReference Include="..\Simulation\Simulation.csproj" />
   </ItemGroup>
 
