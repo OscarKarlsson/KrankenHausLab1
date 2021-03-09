@@ -13,6 +13,27 @@ namespace Simulation
         public void StartSimulation()
         {
             Testar testar = new Testar();
+            AssignPatientsToDepartments();
+            AddDoctorToSanatorium();
+            AddDoctorToIVA();
+            UpdateSickness();
+            Console.WriteLine("-------------");
+            testar.EntityTest(hospital);
+            AssignPatientsToDepartments();
+            UpdateSickness();
+            Console.WriteLine("-------------");
+            testar.EntityTest(hospital);
+            AssignPatientsToDepartments();
+            UpdateSickness();
+            Console.WriteLine("-------------");
+            testar.EntityTest(hospital);
+            AssignPatientsToDepartments();
+            UpdateSickness();
+            Console.WriteLine("-------------");
+            testar.EntityTest(hospital);
+            AssignPatientsToDepartments();
+            UpdateSickness();
+            Console.WriteLine("-------------");
             testar.EntityTest(hospital);
             //Kalla på AssignPatients...
             //Kalla på addDoctor...
@@ -30,7 +51,7 @@ namespace Simulation
             while (patientsInIva < MaxIVA)
             {
                 //Iterating through patients list to find patients in queue. 
-                for (int i = 0; i < hospital.Patients.Count; i++)
+                for (int i = 0; i < hospital.Patients.Count && patientsInIva < MaxIVA; i++)
                 {
                     //Changing department to IVA and adding 1 to patientsInIva.
                     if (hospital.Patients[i].Department == Departments.QUEUE)
@@ -48,7 +69,7 @@ namespace Simulation
             while (patientsInSanitorium < MaxSanatorium)
             {
                 //Iterating through patients list to find patients in queue. 
-                for (int i = 0; i < hospital.Patients.Count; i++)
+                for (int i = 0; i < hospital.Patients.Count && patientsInSanitorium < MaxSanatorium; i++)
                 {
                     //Changing department to Sanitorium and adding 1 to patientsInSanitorium.
                     if (hospital.Patients[i].Department == Departments.QUEUE)
@@ -70,6 +91,9 @@ namespace Simulation
                 {
                     hospital.DoctorsList[0].Department = Departments.IVA;
                     hospital.CurrentDoctorIVA = hospital.DoctorsList[0];
+                    
+                    Console.WriteLine($"Added {hospital.DoctorsList[0].Name} IVA");
+                    hospital.DoctorsList.RemoveAt(0);
                 }
             }
         }
@@ -81,6 +105,8 @@ namespace Simulation
                 {
                     hospital.DoctorsList[0].Department = Departments.SANATORIUM;
                     hospital.CurrentDoctorSanatorium = hospital.DoctorsList[0];
+                    Console.WriteLine($"Added {hospital.DoctorsList[0].Name} Sanatorium");
+                    hospital.DoctorsList.RemoveAt(0);
                 }
             }
         }
@@ -109,10 +135,12 @@ namespace Simulation
                 if (patients.SicknessLevel >= 10)
                 {
                     patients.Status = Status.Dead;
+                    patients.Department = Departments.CHECKEDOUT;
                 }
-                if (patients.SicknessLevel <= 1)
+                if (patients.SicknessLevel <= 0)
                 {
                     patients.Status = Status.Recovered;
+                    patients.Department = Departments.CHECKEDOUT;
                 }
             }
         }
@@ -139,7 +167,6 @@ namespace Simulation
                 patients.SicknessLevel = patients.SicknessLevel - 1;
             }
         }
-
         public void SicknessIva(int randomNumber, Patient patients)
         {
             //b.på IVA så är chansen för tillfrisknande ett steg 70%, 
@@ -162,7 +189,6 @@ namespace Simulation
                 patients.SicknessLevel = patients.SicknessLevel - 1;
             }
         }
-
         public void SicknessQueue(int randomNumber, Patient patients)
         {
             //Get rondom number for follow this rules=> 
@@ -182,7 +208,6 @@ namespace Simulation
                 patients.SicknessLevel = patients.SicknessLevel - 1;
             }
         }
-
         public void UpdateFatigueIVA()
         {            
             hospital.CurrentDoctorIVA.FatigueLevel += rnd.Next(1, 3);

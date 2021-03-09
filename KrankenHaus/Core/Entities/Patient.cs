@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Core.Entities   
 {
-    public enum Departments { QUEUE, IVA, SANATORIUM }
+    public enum Departments { QUEUE, IVA, SANATORIUM, CHECKEDOUT }
     public enum Status { Recovered, Dead, Sick }
 
     public class Patient : DataGenerator
@@ -25,7 +25,14 @@ namespace Core.Entities
         public Departments Department { get; set; }
         public override string ToString()
         {
-            return $"Name: {Name}\nDate of birth: {DateOfBirth}\nSickness level: {SicknessLevel}\nStatus: {Status}";
+            if (Department != Departments.QUEUE && Department != Departments.CHECKEDOUT)
+            {
+                return $"Name: {Name}\nDate of birth: {DateOfBirth}\nSickness level: {SicknessLevel}\nStatus: {Status}\nDept: {Department.ToString()}\n";
+            }
+            else
+            {
+                return "";
+            }
         }
     }
 }

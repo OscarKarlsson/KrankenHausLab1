@@ -11,9 +11,9 @@ namespace Simulation
         {
             
 
-            foreach (var doctor in hp.DoctorsList)
+            foreach (var patient in hp.Patients)
             {
-                Console.WriteLine(doctor.ToString());
+                Console.WriteLine(patient.ToString());
             }
 
            
