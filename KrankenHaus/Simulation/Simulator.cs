@@ -11,7 +11,7 @@ namespace Simulation
     {
         Hospital hospital = new Hospital();
         static Timer TickSecond = null;
-        static Timer TickFiveSecond = null;
+        static Timer TickDay = null;
         Testar testar = new Testar();
         Random rnd = new Random();
         public int MaxIVA = 5;
@@ -25,7 +25,6 @@ namespace Simulation
             updateSicknessQueue.Start();
 
             Console.ForegroundColor = ConsoleColor.Cyan;
-
             allinfo.AmountDead = hospital.Patients.Where(p => p.Status == Status.Dead).Count();
             allinfo.AmountDoctorsWaiting = hospital.DoctorsList.Count();
             allinfo.AmountIVA = hospital.Patients.Where(p => p.Department == Departments.IVA).Count();
@@ -51,7 +50,7 @@ namespace Simulation
         {
             
             TickSecond = new Timer(new TimerCallback(EverySecond), null, 1000, 1000);
-            TickFiveSecond = new Timer(new TimerCallback(OnceADay), null, 3000, 3000);
+            TickDay = new Timer(new TimerCallback(OnceADay), null, 3000, 3000);
 
             while (hospital.Patients.Where(p => p.Department == Departments.CHECKEDOUT).Count() != 100)
             {
@@ -59,7 +58,7 @@ namespace Simulation
             }
             
             TickSecond.Dispose();
-            TickFiveSecond.Dispose();
+            TickDay.Dispose();
             Console.WriteLine("End of bi...!");
 
         }
