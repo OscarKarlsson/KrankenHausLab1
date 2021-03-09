@@ -14,41 +14,35 @@ namespace Simulation
         Random rnd = new Random();
         public int MaxIVA = 5;
         public int MaxSanatorium = 10;
+
+        public void PrintToConsole(object state)
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine($"How many patients died: {hospital.AmountPatientsAfterLife}");
+            Console.WriteLine($"How many patients checked out: {hospital.AmountPatientsRecovered}\n");
+            Console.ResetColor();
+        }
         
         public void Second(object state)
         {
-
             //Thread updateFatigue = new Thread(UpdateFatigue);
-
             //Thread updateSickness = new Thread(UpdateSickness);
-            //Thread assignPatientsToDepartments = new Thread(AssignPatientsToDepartments);
-
-
-            //updateFatigue.Priority = ThreadPriority.Highest;
+            //Thread assignPatientsToDepartments = new Thread(AssignPatientsToDepartments);            
             //updateFatigue.Start();
-
-
             //updateSickness.Start();
             //assignPatientsToDepartments.Start();
             AssignPatientsToDepartments();
             UpdateFatigue();
             UpdateSickness();
-
-
             //testar.EntityTest(hospital);
-            Console.WriteLine("---------------------------------------------------------------------------------------");
-            
+            Console.WriteLine("---------------------------------------------------------------------------------------");           
+
         }
         public void StartSimulation()
         {
-
             TickSecond = new Timer(new TimerCallback(Second), null, 1000, 2000);
-            Thread.Sleep(40000);
-                
-            Console.WriteLine("End of bi...!");
+            TickFiveSecond = new Timer(new TimerCallback(PrintToConsole),null, 10000, 10000);
 
-            //Kalla på AssignPatients...
-            //Kalla på addDoctor...
         }
         public void AssignPatientsToDepartments()
         {
@@ -92,11 +86,6 @@ namespace Simulation
             }
 
         }
-        //public void AddDoctor()
-        //{
-        //    AddDoctorToIVA();
-        //    AddDoctorToSanatorium();
-        //}
         public void AddDoctorToIVA()
         {
             if (hospital.CurrentDoctorIVA == null && hospital.DoctorsList.Count != 0)
@@ -148,11 +137,13 @@ namespace Simulation
                 {
                     patients.Status = Status.Dead;
                     patients.Department = Departments.CHECKEDOUT;
+                    hospital.AmountPatientsAfterLife++;
                 }
                 if (patients.SicknessLevel <= 0)
                 {
                     patients.Status = Status.Recovered;
                     patients.Department = Departments.CHECKEDOUT;
+                    hospital.AmountPatientsRecovered++;
                 }
             }
         }
@@ -222,7 +213,6 @@ namespace Simulation
         }
         public void UpdateFatigue()
         {
-
             UpdateFatigueIVA();
             UpdateFatigueSanatorium();
         }
