@@ -24,7 +24,7 @@ namespace Simulation
             int patientsInIva = hospital.Patients.Where(p => p.Department == Departments.IVA).Count();
 
             //Counting number of patients in Sanitorium.
-            int patientsInSanitorium = hospital.Patients.Where(p => p.Department == Departments.IVA).Count();
+            int patientsInSanitorium = hospital.Patients.Where(p => p.Department == Departments.SANATORIUM).Count();
 
             //Checking if patientsInIva is less than MaxIVA.
             while (patientsInIva < MaxIVA)
@@ -40,7 +40,6 @@ namespace Simulation
                             hospital.Patients[i].Department = Departments.IVA;
                             patientsInIva++;
                         }
-
                     }
                 }
             }
@@ -59,7 +58,6 @@ namespace Simulation
                             hospital.Patients[i].Department = Departments.SANATORIUM;
                             patientsInSanitorium++;
                         }
-
                     }
                 }
             }
