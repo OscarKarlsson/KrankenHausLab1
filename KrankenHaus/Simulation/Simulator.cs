@@ -33,7 +33,7 @@ namespace Simulation
             AssignPatientsToDepartments();
             UpdateFatigue();
             UpdateSickness();
-            
+
 
             //testar.EntityTest(hospital);
             Console.WriteLine("---------------------------------------------------------------------------------------");
@@ -42,8 +42,8 @@ namespace Simulation
         public void StartSimulation()
         {
 
-            TickSecond = new Timer(new TimerCallback(Second), null, 1000, 1000);
-            Thread.Sleep(10000);
+            TickSecond = new Timer(new TimerCallback(Second), null, 1000, 2000);
+            Thread.Sleep(40000);
                 
             Console.WriteLine("End of bi...!");
 
