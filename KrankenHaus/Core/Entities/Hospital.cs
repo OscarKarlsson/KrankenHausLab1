@@ -13,7 +13,8 @@ namespace Core.Entities
         public List<Patient> Patients { get; set; }
         public List<Patient> PatientsTEMP { get; set; }
         public List<Doctor> DoctorsList { get; set; }
-        public Doctor CurrentDoctor { get; set; }
+        public Doctor CurrentDoctorIVA { get; set; }
+        public Doctor CurrentDoctorSanatorium { get; set; }
         public int AmountPatientsAfterLife { get; set; }
         public int AmountPatientsRecovered { get; set; }
 
