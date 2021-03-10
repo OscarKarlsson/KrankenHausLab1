@@ -29,16 +29,56 @@ namespace Core.Entities
         }
         public Patient GetPatient()
         {
-            return PatientsQueue.Dequeue();
+            if (PatientsQueue.Count != 0)
+            {
+                return PatientsQueue.Dequeue();
+            }
+            return null;
         }
         public int GetCountOfDoctor()
         {
             return DoctorsQueue.Count();
         }
-        public Patient RemoveSpecificPatient(Patient patient)
+        public int GetCountOfPatient()
         {
-            PatientsQueue = new Queue<Patient>(PatientsQueue.Where(x => x != patient));
-            return patient;
+            return PatientsQueue.Count();
         }
+        public List<int> UpdateSicknessQueue()
+        {            
+            Random rnd = new Random();
+            List<int> sicknessLevels = new List<int>();
+            int sickLevel;
+            int randomNumber;
+            
+            foreach (var patients in PatientsQueue)
+            {
+                randomNumber = rnd.Next(1, 101);
+
+                if (randomNumber <= 80)
+                {
+                    patients.UpdateSicknessLevel(1);
+                }
+                else if (randomNumber >= 81 && randomNumber <= 95)
+                {
+                }
+                else if (randomNumber >= 96)
+                {
+                    patients.UpdateSicknessLevel(-1);
+                }
+
+                sickLevel = patients.CheckSicknessLevel();
+                if (sickLevel != 0)
+                {
+                    sicknessLevels.Add(sickLevel);
+                    RemoveSpecificPatient(patients);
+                }                 
+            }
+            return sicknessLevels;
+        }
+
+        public void RemoveSpecificPatient(Patient patient)
+        {
+            PatientsQueue = new Queue<Patient>(PatientsQueue.Where(x => x != patient));           
+        } 
     }
 }

@@ -22,7 +22,8 @@ namespace PrintManager.Print
             write.AppendLine($"\nAmount of patients in IVA: {args.AmountIVA}");
             write.AppendLine($"\nAmount of patients in sanatorium: {args.AmountSanatorium}");
             write.AppendLine($"\nAmount of patients in queue: {args.AmountPatientsInQueue}");
-            write.AppendLine($"\nDoctors waiting: {args.AmountDoctorsWaiting}\n\n");
+            write.AppendLine($"\nDoctors waiting: {args.AmountDoctorsWaiting}\n");
+            write.AppendLine($"\nNumber of ticks: {args.TickCount}\n");
             string textToFile = write.ToString();
             PrintToLog printToLog = new PrintToLog();
             printToLog.WriteToFile(textToFile);
