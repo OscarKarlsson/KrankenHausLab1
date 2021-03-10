@@ -25,7 +25,7 @@ namespace Simulation
         ReportEventArgs allinfo = new ReportEventArgs();
         public void OnceADay(object state)
         {
-            
+            xx
             Thread updateSicknessQueue = new Thread(UpdateSicknessQueue);
             updateSicknessQueue.Start();
            
