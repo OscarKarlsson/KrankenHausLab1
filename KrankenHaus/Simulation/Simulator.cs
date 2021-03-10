@@ -18,14 +18,12 @@ namespace Simulation
         Random rnd = new Random();
         public int MaxIVA = 5;
         public int MaxSanatorium = 10;
-        GenericDepartment<Patient> IVA = new GenericDepartment<Patient>(5);
-        List<Patient> x = new List<Patient>();
         
         public event EventHandler<ReportEventArgs> ReportEventHandler;
         ReportEventArgs allinfo = new ReportEventArgs();
+
         public void OnceADay(object state)
         {
-            xx
             Thread updateSicknessQueue = new Thread(UpdateSicknessQueue);
             updateSicknessQueue.Start();
            
@@ -70,29 +68,31 @@ namespace Simulation
 
         public void AssignPatientsToDepartments()
         {
-            int patientsIVA = IVADept.PatientsInIVA.Count();
-            int patientsSanatorium = sanatoriumDept.PatientsSanatorium.Count();
-            if (patientsIVA < MaxIVA)
+            int patientsIVA = IVADept.GetCountOfPatient();
+            int patientsSanatorium = sanatoriumDept.GetCountOfPatient();
+            while (patientsIVA < MaxIVA)
             {
-                IVADept.PatientsInIVA.Add(hospital.RemoveSpecificPatient()); 
+                IVADept.AddPatient(hospital);
+                patientsIVA++;
             }
-            if (patientsSanatorium < MaxSanatorium)
+            while (patientsSanatorium < MaxSanatorium)
             {
-                sanatoriumDept.PatientsSanatorium.Add(hospital.PatientsQueue.Dequeue());
+                sanatoriumDept.AddPatient(hospital);
+                patientsSanatorium++;
             }
         }
         public void AddDoctorToIVA()
         {
-            if (IVADept.CurrentDoctorIVA == null && hospital.DoctorsQueue.Count != 0)
+            if (!IVADept.checkDoktorExist() && hospital.GetCountOfDoctor() != 0)
             {
-                IVADept.SetCurrentDoctor(hospital.DoctorsQueue.Dequeue());
+                IVADept.SetCurrentDoctor(hospital.GetDoctor());
             }
         }
         public void AddDoctorToSanatorium()
         {
-            if (sanatoriumDept.CurrentDoctorSanatorium == null && hospital.DoctorsQueue.Count != 0)
+            if (!sanatoriumDept.checkDoktorExist() && hospital.GetCountOfDoctor() != 0)
             {
-                sanatoriumDept.SetCurrentDoctor(hospital.DoctorsQueue.Dequeue());
+                sanatoriumDept.SetCurrentDoctor(hospital.GetDoctor());
             }
         }
         public void UpdateSicknessDept()
