@@ -13,6 +13,7 @@ namespace Start
             var consoleprint = new ConsolePrint();
             simulator.ReportEventHandler += consoleprint.PrintFiveSeconds;
             simulator.StartSimulation();
+            
             Console.ReadLine();
 
 
