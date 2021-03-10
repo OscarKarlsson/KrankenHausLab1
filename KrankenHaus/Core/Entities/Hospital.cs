@@ -23,9 +23,22 @@ namespace Core.Entities
                 this.DoctorsQueue?.Enqueue(new Doctor());
             }
         }
+        public Doctor GetDoctor()
+        {
+            return DoctorsQueue.Dequeue();
+        }
+        public Patient GetPatient()
+        {
+            return PatientsQueue.Dequeue();
+        }
+        public int GetCountOfDoctor()
+        {
+            return DoctorsQueue.Count();
+        }
         public Patient RemoveSpecificPatient(Patient patient)
         {
             PatientsQueue = new Queue<Patient>(PatientsQueue.Where(x => x != patient));
+            return patient;
         }
     }
 }
