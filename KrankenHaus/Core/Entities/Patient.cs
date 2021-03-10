@@ -23,6 +23,20 @@ namespace Core.Entities
         public DateTime DateOfBirth { get; set; }
         public int SicknessLevel { get; set; }
         public Departments Department { get; set; }
+        public void ChangeSicknessLevel(int randomNumber)
+        {
+            if (randomNumber <= 80)
+            {
+                SicknessLevel += 1;
+            }
+            else if (randomNumber >= 81 && randomNumber <= 95)
+            {
+            }
+            else if (randomNumber >= 96)
+            {
+                SicknessLevel -= 1;
+            }
+        }
         public override string ToString()
         {
                 return $"Name: {Name}\nDate of birth: {DateOfBirth}\nSickness level: {SicknessLevel}\nStatus: {Status}\nDept: {Department.ToString()}\n";

@@ -9,14 +9,7 @@ namespace Simulation
     {
         public void EntityTest(Hospital hp)
         {
-            
-
-            foreach (var patient in hp.Patients)
-            {
-                Console.WriteLine(patient.ToString());
-            }
-
-           
+                      
             Console.ReadLine();
         }
 
