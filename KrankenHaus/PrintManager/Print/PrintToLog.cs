@@ -7,11 +7,12 @@ namespace PrintManager.Print
 {
     class PrintToLog
     {
+
         private string fileName = "KrankenHaus.txt";
 
         public void WriteToFile(string text)
         {
             File.AppendAllText(fileName, text);
-        }        
+        }
     }
 }
