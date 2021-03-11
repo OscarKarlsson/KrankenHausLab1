@@ -29,6 +29,10 @@ namespace Simulation
         public event EventHandler<ReportEventArgs> ReportEventHandler;
         ReportEventArgs allinfo = new ReportEventArgs();
         FinishedSimulationEventArgs finishedInfo = new FinishedSimulationEventArgs();
+
+        public event EventHandler<PatientDeadOrAliveEventArgs> DeadOrAliveHandler;
+        PatientDeadOrAliveEventArgs patientSend = new PatientDeadOrAliveEventArgs();
+
         public void OnceADay(object state)
         {
             Thread updateSicknessQueue = new Thread(UpdateSicknessQueue);
@@ -37,11 +41,10 @@ namespace Simulation
             allinfo.AmountDoctorsWaiting = hospital.GetCountOfDoctor();
             allinfo.AmountIVA = IVADept.GetCountOfPatient();
             allinfo.AmountSanatorium = sanatoriumDept.GetCountOfPatient();
-            allinfo.AmountPatientsInQueue = hospital.GetCountOfPatient();
-            
-            Console.ForegroundColor = ConsoleColor.Cyan;
+            allinfo.AmountPatientsInQueue = hospital.GetCountOfPatient();          
+           
             ReportEventHandler?.Invoke(this, allinfo);
-            Console.ResetColor();
+            
         }
         public void Second(object state)
         {
@@ -52,20 +55,20 @@ namespace Simulation
             Thread addPatient = new Thread(AssignPatientsToDepartments);
 
             finishedInfo.TotalTicks++;
+            updateSickness.Priority = ThreadPriority.Highest;
 
             updateFatigue.Start();
             updateFatigue.Join();
             addPatient.Start();
             addPatient.Join();
-
+            
             updateSickness.Start();
         }
         public void StartSimulation()
-        {
-            
+        {            
             SimulationStart = DateTime.Now;
-            TickSecond = new Timer(new TimerCallback(Second), null, 1000, 1000);
-            TickFiveSecond = new Timer(new TimerCallback(OnceADay), null, 3000, 3000);
+            TickSecond = new Timer(new TimerCallback(Second), null, 1000, 2000);
+            TickFiveSecond = new Timer(new TimerCallback(OnceADay), null, 6000, 6000);
 
             while (hospital.GetCountOfPatient() != 0 || IVADept.GetCountOfPatient() != 0 || sanatoriumDept.GetCountOfPatient() != 0)
             {
@@ -118,16 +121,31 @@ namespace Simulation
         {           
             List<int> deadOrAlive = hospital.UpdateSicknessQueue();
             UpdateReportEventArgs(deadOrAlive);
+            InvokeEvent(hospital.TempPatients);
+            hospital.TempPatients.Clear();
         }       
         public void UpdateSicknessSanatorium()
         {
             List<int> deadOrAlive = sanatoriumDept.UpdateSickenessLevel();
             UpdateReportEventArgs(deadOrAlive);
+            InvokeEvent(sanatoriumDept.TempPatients);
+            sanatoriumDept.TempPatients.Clear();
         }
         public void UpdateSicknessIVA()
-        {
+        {  
+            
             List<int> deadOrAlive = IVADept.UpdateSickenessLevel();
             UpdateReportEventArgs(deadOrAlive);
+            InvokeEvent(IVADept.TempPatients);
+            IVADept.TempPatients.Clear();
+        }
+        public void InvokeEvent(List<Patient> tempList)
+        {
+            foreach (var patients in tempList)
+            {
+                patientSend.Patient = patients;
+                DeadOrAliveHandler?.Invoke(this, patientSend);
+            }             
         }
         public void UpdateFatigue()
         {

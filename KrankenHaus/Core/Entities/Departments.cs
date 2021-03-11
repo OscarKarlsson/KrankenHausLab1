@@ -13,7 +13,10 @@ namespace Core.Entities
         private Doctor currentDoctor { get; set; }
         private int RiskIncrease { get; set; }
         private int ChanceDecrease { get; set; }
-      
+
+        public List<Patient> TempPatients { get; set; } = new List<Patient>();
+
+
         public Department(int increase, int decrease)
         {
             this.RiskIncrease = increase;
@@ -80,6 +83,7 @@ namespace Core.Entities
                     sickLevel = patient.CheckSicknessLevel();
                     if (sickLevel != 0)
                     {
+                        TempPatients.Add(patient);
                         TimeInDepartment.Add(patient.GetTimeAtDepartment());
                         sicknessLevels.Add(sickLevel);
                         patients.Remove(patient);

@@ -4,17 +4,17 @@ using System;
 
 namespace Core.Entities
 {
+    
     public class Patient : DataGenerator
-    {
-       
+    {       
         public Patient()
         {
             Name = GenerateName();
             DateOfBirth = GenerateDOB();
-            SicknessLevel = GenerateInt(1, 9);            
+            SicknessLevel = GenerateInt(1, 9);
+         
         }
-
-        
+              
         private string Name { get; set; }
         private DateTime DateOfBirth { get; set; }
         private int TimeInQueue { get; set; }
@@ -58,7 +58,7 @@ namespace Core.Entities
         }
         public override string ToString()
         {
-                return $"{Name}";
+                return $"{Name}     :    {DateOfBirth}";
         }
     }
 }
