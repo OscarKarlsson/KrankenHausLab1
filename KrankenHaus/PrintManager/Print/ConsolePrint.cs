@@ -1,10 +1,9 @@
-﻿using System;
+﻿
+using Simulation.Eventargs;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-using Core.Entities;
-using Simulation.Eventargs;
-
 
 
 namespace PrintManager.Print

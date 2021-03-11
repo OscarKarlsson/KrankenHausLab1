@@ -1,23 +1,26 @@
 ﻿using Core.Data;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Core.Entities   
+
+namespace Core.Entities
 {
     public class Patient : DataGenerator
     {
+       
         public Patient()
         {
             Name = GenerateName();
             DateOfBirth = GenerateDOB();
-            SicknessLevel = GenerateInt(1, 9);
+            SicknessLevel = GenerateInt(1, 9);            
         }
+
+        
         private string Name { get; set; }
         private DateTime DateOfBirth { get; set; }
         private int TimeInQueue { get; set; }
         private int TimeAtDepartment { get; set; }
-        private int SicknessLevel { get; set; }    
+        private int SicknessLevel { get; set; }
+
         public void UpdateTickQueue()
         {
             TimeInQueue++;
