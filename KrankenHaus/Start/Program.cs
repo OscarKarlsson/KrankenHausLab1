@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PrintManager.Print;
+using Simulation;
+using System;
 
 namespace Start
 {
@@ -18,7 +20,10 @@ namespace Start
         {
             ManualInputs();
             var simulator = new Simulator(IVADecrease, IVAIncrease, SanatoriumDecrease, SanatoriumIncrease, AmountOfPatients, AmountOfDoctors, QueueIncrease, QueueDecrease);
-            
+            var consolePrint = new ConsolePrint();
+            simulator.FinishEventHandler += consolePrint.PrintWhenFinish;
+            simulator.ReportEventHandler += consolePrint.PrintFiveSeconds;
+            simulator.DeadOrAliveHandler += consolePrint.PrintPatient;
             
             simulator.StartSimulation();
 

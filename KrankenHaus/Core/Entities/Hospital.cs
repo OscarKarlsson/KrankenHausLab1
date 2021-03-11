@@ -17,8 +17,10 @@ namespace Core.Entities
         private List<int> TimeInQueue { get; set; } = new List<int>();
         private int RiskIncrease { get; set; }
         private int ChanceDecrease { get; set; }
-        public event EventHandler<PatientDeadOrAliveEventArgs> DeadOrAliveHandler;
-        PatientDeadOrAliveEventArgs patientSend = new PatientDeadOrAliveEventArgs();
+
+        public List<Patient> TempPatients { get; set; } = new List<Patient>();
+        //public event EventHandler<PatientDeadOrAliveEventArgs> DeadOrAliveHandler;
+        //PatientDeadOrAliveEventArgs patientSend = new PatientDeadOrAliveEventArgs();
         public Hospital(int patients, int doctors, int risk, int chance)
         {
             for (int i = 0; i < patients; i++)
@@ -93,6 +95,7 @@ namespace Core.Entities
                 sickLevel = patients.CheckSicknessLevel();
                 if (sickLevel != 0)
                 {
+                    TempPatients.Add(patients);                    
                     TimeInQueue.Add(patients.GetTimeInQueue());
                     sicknessLevels.Add(sickLevel);
                     RemoveSpecificPatient(patients);

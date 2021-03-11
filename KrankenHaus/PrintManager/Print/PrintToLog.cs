@@ -14,5 +14,6 @@ namespace PrintManager.Print
         {
             File.AppendAllText(fileName, text);
         }
+        
     }
 }
