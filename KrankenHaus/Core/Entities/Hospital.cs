@@ -75,7 +75,6 @@ namespace Core.Entities
             }
             return sicknessLevels;
         }
-
         public void RemoveSpecificPatient(Patient patient)
         {
             PatientsQueue = new Queue<Patient>(PatientsQueue.Where(x => x != patient));           
