@@ -12,6 +12,7 @@ namespace Core.Entities
         // tillfriskning sker. 
         private Queue<Patient> PatientsQueue { get; set; } = new Queue<Patient>();
         private Queue<Doctor> DoctorsQueue { get; set; } = new Queue<Doctor>();
+        private List<int> TimeInQueue { get; set; } = new List<int>();
         private int RiskIncrease { get; set; }
         private int ChanceDecrease { get; set; }
         public Hospital(int patients, int doctors, int risk, int chance)
@@ -27,6 +28,15 @@ namespace Core.Entities
             RiskIncrease = risk;
             ChanceDecrease = chance;
         }
+        public int CalculateAvgTime()
+        {
+            int TotalTicks = 0;
+            for (int i = 0; i < TimeInQueue.Count; i++)
+            {
+                TotalTicks += TimeInQueue[i];
+            }
+            return TotalTicks / TimeInQueue.Count;
+        }
         public Doctor GetDoctor()
         {
             return DoctorsQueue.Dequeue();
@@ -35,6 +45,7 @@ namespace Core.Entities
         {
             if (PatientsQueue.Count != 0)
             {
+                TimeInQueue.Add(PatientsQueue.Peek().GetTimeInQueue());
                 return PatientsQueue.Dequeue();
             }
             return null;
@@ -47,6 +58,13 @@ namespace Core.Entities
         {
             return PatientsQueue.Count();
         }
+        public void UpdateTickCount()
+        {
+            foreach (var patient in PatientsQueue)
+            {
+                patient.UpdateTickQueue();
+            }
+        }
         public List<int> UpdateSicknessQueue()
         {            
             Random rnd = new Random();
@@ -56,6 +74,7 @@ namespace Core.Entities
             
             foreach (var patients in PatientsQueue.ToArray())
             {
+                
                 randomNumber = rnd.Next(1, 101);
 
                 if (randomNumber <= RiskIncrease)
@@ -70,6 +89,7 @@ namespace Core.Entities
                 sickLevel = patients.CheckSicknessLevel();
                 if (sickLevel != 0)
                 {
+                    TimeInQueue.Add(patients.GetTimeInQueue());
                     sicknessLevels.Add(sickLevel);
                     RemoveSpecificPatient(patients);
                 }                 

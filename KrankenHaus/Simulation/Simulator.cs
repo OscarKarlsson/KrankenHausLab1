@@ -20,14 +20,14 @@ namespace Simulation
         Sanatorium sanatoriumDept;
         static Timer TickSecond = null;
         static Timer TickFiveSecond = null;
-        Testar testar = new Testar();
+        public DateTime SimulationStart { get; set; }
         Random rnd = new Random();
         public int MaxIVA = 5;
         public int MaxSanatorium = 10;
-        
+        public event EventHandler<FinishedSimulationEventArgs> FinishEventHandler;
         public event EventHandler<ReportEventArgs> ReportEventHandler;
         ReportEventArgs allinfo = new ReportEventArgs();
-
+        FinishedSimulationEventArgs finishedInfo = new FinishedSimulationEventArgs();
         public void OnceADay(object state)
         {
             Thread updateSicknessQueue = new Thread(UpdateSicknessQueue);
@@ -45,31 +45,23 @@ namespace Simulation
         public void Second(object state)
         {
             Thread updateFatigue = new Thread(UpdateFatigue);
-            //Thread updateSicknessQueue = new Thread(UpdateSicknessQueue);
-            //Thread updateSickness = new Thread(UpdateSicknessDepartments);
-            Thread updateSickness = new Thread(() => { UpdateSicknessIVA(); UpdateSicknessSanatorium(); });
-            //hread updateSicknessIVA = new Thread(UpdateSicknessIVA);
-            //Thread updateSicknessSanatorium = new Thread(UpdateSicknessSanatorium);             
+
+            Thread updateSickness = new Thread(() => { UpdateSicknessIVA(); UpdateSicknessSanatorium(); hospital.UpdateTickCount(); });
+           
             Thread addPatient = new Thread(AssignPatientsToDepartments);
-            allinfo.TickCount++;
+
+            finishedInfo.TotalTicks++;
 
             updateFatigue.Start();
             updateFatigue.Join();
             addPatient.Start();
             addPatient.Join();
-            //updateSicknessQueue.Start();
-            //updateSicknessQueue.Join();
-            updateSickness.Start();
-           //updateSickness.Join();
-            //updateSicknessIVA.Start();
-            //updateSicknessSanatorium.Start();
-            //Console.WriteLine(Thread.CurrentThread.ManagedThreadId.ToString());
 
-            //Console.WriteLine("---------------------------------------------------------------------------------------");   
+            updateSickness.Start();
         }
         public void StartSimulation()
         {
-            
+            SimulationStart = DateTime.Now;
             TickSecond = new Timer(new TimerCallback(Second), null, 1000, 1000);
             TickFiveSecond = new Timer(new TimerCallback(OnceADay), null, 3000, 3000);
 
@@ -81,11 +73,16 @@ namespace Simulation
             TickSecond.Dispose();
             Thread.Sleep(4000);
             TickFiveSecond.Dispose();
-            
-            Console.WriteLine("End of bi...!");
-
+            AssignValueToFinished();
+            FinishEventHandler?.Invoke(this, finishedInfo);
         }
-
+        public void AssignValueToFinished()
+        {
+            finishedInfo.AvgTimeInIVA = IVADept.CalculateAvgTime();
+            finishedInfo.AvgTimeInSanatorium = sanatoriumDept.CalculateAvgTime();
+            finishedInfo.AvgTimeInQueue = hospital.CalculateAvgTime();
+            finishedInfo.SimulationStart = SimulationStart;
+        }
         public void AssignPatientsToDepartments()
         {
             int patientsIVA = IVADept.GetCountOfPatient();
@@ -120,8 +117,7 @@ namespace Simulation
             
             List<int> deadOrAlive = hospital.UpdateSicknessQueue();
             UpdateReportEventArgs(deadOrAlive);
-        }               
-       
+        }       
         public void UpdateSicknessSanatorium()
         {
             List<int> deadOrAlive = sanatoriumDept.UpdateSickenessLevel();

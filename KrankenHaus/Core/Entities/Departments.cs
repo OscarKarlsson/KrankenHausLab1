@@ -8,14 +8,24 @@ namespace Core.Entities
     {
         Random rnd = new Random();
         private List<Patient> patients { get; set; } = new List<Patient>();
+        private List<int> TimeInDepartment { get; set; } = new List<int>();
         private Doctor currentDoctor { get; set; }
         private int RiskIncrease { get; set; }
         private int ChanceDecrease { get; set; }
-
+        
         public Department(int increase, int decrease)
         {
             this.RiskIncrease = increase;
             this.ChanceDecrease = decrease;
+        }
+        public int CalculateAvgTime()
+        {
+            int TotalTicks = 0;
+            for (int i = 0; i < TimeInDepartment.Count; i++)
+            {
+                TotalTicks += TimeInDepartment[i];
+            }
+            return TotalTicks / TimeInDepartment.Count;
         }
         public bool checkDoktorExist()
         {
@@ -48,6 +58,7 @@ namespace Core.Entities
 
             foreach (var patient in patients.ToArray())
             {
+                patient.UpdateTickDepartment();
                 if (patient != null)
                 {
                     randomNumber = rnd.Next(1, 101);
@@ -71,12 +82,11 @@ namespace Core.Entities
                     sickLevel = patient.CheckSicknessLevel();
                     if (sickLevel != 0)
                     {
+                        TimeInDepartment.Add(patient.GetTimeAtDepartment());
                         sicknessLevels.Add(sickLevel);
                         patients.Remove(patient);
                     }
                 }
-
-
             }
             return sicknessLevels;
         }

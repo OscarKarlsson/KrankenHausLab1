@@ -5,9 +5,6 @@ using System.Text;
 
 namespace Core.Entities   
 {
-    //public enum Departments { QUEUE, IVA, SANATORIUM, CHECKEDOUT }
-    //public enum Status { Recovered, Dead, Sick }
-
     public class Patient : DataGenerator
     {
         public Patient()
@@ -15,17 +12,31 @@ namespace Core.Entities
             Name = GenerateName();
             DateOfBirth = GenerateDOB();
             SicknessLevel = GenerateInt(1, 9);
-            //Department = Departments.QUEUE;
-            //Status = Status.Sick;
         }
-        //public Status Status { get; set; }
         private string Name { get; set; }
         private DateTime DateOfBirth { get; set; }
-        private int SicknessLevel { get; set; }
-        //public Departments Department { get; set; }
+        private int TimeInQueue { get; set; }
+        private int TimeAtDepartment { get; set; }
+        private int SicknessLevel { get; set; }    
+        public void UpdateTickQueue()
+        {
+            TimeInQueue++;
+        }
+        public void UpdateTickDepartment()
+        {
+            TimeAtDepartment++;
+        }
         public void UpdateSicknessLevel(int change)
         {
             SicknessLevel += change;
+        }
+        public int GetTimeInQueue()
+        {
+            return TimeInQueue;
+        }
+        public int GetTimeAtDepartment()
+        {
+            return TimeAtDepartment;
         }
         public int CheckSicknessLevel()
         {
@@ -44,7 +55,7 @@ namespace Core.Entities
         }
         public override string ToString()
         {
-                return $"Name: {Name}\nDate of birth: {DateOfBirth}\nSickness level: {SicknessLevel}\n";
+                return $"{Name}";
         }
     }
 }

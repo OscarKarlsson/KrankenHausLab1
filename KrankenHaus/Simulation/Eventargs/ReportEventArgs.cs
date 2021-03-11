@@ -13,7 +13,6 @@ namespace Simulation.Eventargs
         public int AmountIVA { get; set; }
         public int AmountSanatorium { get; set; }
         public DateTime StartTime { get; set; }
-        public int TickCount { get; set; }
 
         public ReportEventArgs()
         {
