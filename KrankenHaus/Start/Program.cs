@@ -1,6 +1,4 @@
 ﻿using System;
-using Simulation;
-using PrintManager.Print;
 
 namespace Start
 {
@@ -20,17 +18,11 @@ namespace Start
         {
             ManualInputs();
             var simulator = new Simulator(IVADecrease, IVAIncrease, SanatoriumDecrease, SanatoriumIncrease, AmountOfPatients, AmountOfDoctors, QueueIncrease, QueueDecrease);
-            var consoleprint = new ConsolePrint();
-            simulator.ReportEventHandler += consoleprint.PrintFiveSeconds;
-            simulator.FinishEventHandler += consoleprint.PrintWhenFinish;
+            
+            
             simulator.StartSimulation();
 
             Console.ReadLine();
-
-
-
-            //TestClass test = new TestClass();
-            //test.EntityTest();
         }
 
         private static void ManualInputs()

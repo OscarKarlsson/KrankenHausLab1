@@ -1,9 +1,10 @@
 ﻿using System;
-using Core.Entities;
+
 using System.Linq;
 using System.Threading;
-using Simulation.Eventargs;
 using System.Collections.Generic;
+using Core.Entities;
+using Simulation.Eventargs;
 
 namespace Simulation
 {
@@ -61,6 +62,7 @@ namespace Simulation
         }
         public void StartSimulation()
         {
+            
             SimulationStart = DateTime.Now;
             TickSecond = new Timer(new TimerCallback(Second), null, 1000, 1000);
             TickFiveSecond = new Timer(new TimerCallback(OnceADay), null, 3000, 3000);
@@ -113,8 +115,7 @@ namespace Simulation
             }
         }                
         public void UpdateSicknessQueue()
-        {
-            
+        {           
             List<int> deadOrAlive = hospital.UpdateSicknessQueue();
             UpdateReportEventArgs(deadOrAlive);
         }       

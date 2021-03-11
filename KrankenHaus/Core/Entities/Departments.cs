@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,7 +13,7 @@ namespace Core.Entities
         private Doctor currentDoctor { get; set; }
         private int RiskIncrease { get; set; }
         private int ChanceDecrease { get; set; }
-        
+      
         public Department(int increase, int decrease)
         {
             this.RiskIncrease = increase;
@@ -54,8 +55,6 @@ namespace Core.Entities
             List<int> sicknessLevels = new List<int>();
             int sickLevel;
             int randomNumber = 0;
-
-
             foreach (var patient in patients.ToArray())
             {
                 patient.UpdateTickDepartment();
@@ -77,7 +76,6 @@ namespace Core.Entities
                     {
                         patient.UpdateSicknessLevel(-1);
                     }
-
 
                     sickLevel = patient.CheckSicknessLevel();
                     if (sickLevel != 0)
