@@ -9,9 +9,15 @@ namespace Simulation
 {
     public class Simulator
     {
-        Hospital hospital = new Hospital();
-        IVA IVADept = new IVA(10, 30);
-        Sanatorium sanatoriumDept = new Sanatorium(50, 65);
+        public Simulator(int IVAD, int IVAI, int SanaD, int SanaI, int Patients, int Doctors, int QueI, int QueD)
+        {
+            hospital = new Hospital(Patients, Doctors, QueI, QueD);
+            IVADept = new IVA(IVAI, IVAD);
+            sanatoriumDept = new Sanatorium(SanaI, SanaD);
+        }
+        Hospital hospital;
+        IVA IVADept;
+        Sanatorium sanatoriumDept;
         static Timer TickSecond = null;
         static Timer TickFiveSecond = null;
         Testar testar = new Testar();

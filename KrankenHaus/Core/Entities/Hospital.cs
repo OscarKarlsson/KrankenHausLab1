@@ -12,16 +12,20 @@ namespace Core.Entities
         // tillfriskning sker. 
         private Queue<Patient> PatientsQueue { get; set; } = new Queue<Patient>();
         private Queue<Doctor> DoctorsQueue { get; set; } = new Queue<Doctor>();
-        public Hospital()
+        private int RiskIncrease { get; set; }
+        private int ChanceDecrease { get; set; }
+        public Hospital(int patients, int doctors, int risk, int chance)
         {
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < patients; i++)
             {
                 this.PatientsQueue?.Enqueue(new Patient());
             }
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < doctors; i++)
             {
                 this.DoctorsQueue?.Enqueue(new Doctor());
             }
+            RiskIncrease = risk;
+            ChanceDecrease = chance;
         }
         public Doctor GetDoctor()
         {
@@ -50,18 +54,15 @@ namespace Core.Entities
             int sickLevel;
             int randomNumber;
             
-            foreach (var patients in PatientsQueue)
+            foreach (var patients in PatientsQueue.ToArray())
             {
                 randomNumber = rnd.Next(1, 101);
 
-                if (randomNumber <= 80)
+                if (randomNumber <= RiskIncrease)
                 {
                     patients.UpdateSicknessLevel(1);
                 }
-                else if (randomNumber >= 81 && randomNumber <= 95)
-                {
-                }
-                else if (randomNumber >= 96)
+                else if (randomNumber >= ChanceDecrease)
                 {
                     patients.UpdateSicknessLevel(-1);
                 }
