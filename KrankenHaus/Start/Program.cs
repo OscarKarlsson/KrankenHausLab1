@@ -14,7 +14,26 @@ namespace Start
         static public int AmountOfDoctors { get; set; }
         static public int QueueIncrease { get; set; }
         static public int QueueDecrease { get; set; }
+        static public int ChangeFastTick { get; set; }
+        static public int ChangeSlowTick { get; set; }
         static void Main(string[] args)
+        {
+            ManualInputs();
+            var simulator = new Simulator(IVADecrease, IVAIncrease, SanatoriumDecrease, SanatoriumIncrease, AmountOfPatients, AmountOfDoctors, QueueIncrease, QueueDecrease);
+            var consoleprint = new ConsolePrint();
+            simulator.ReportEventHandler += consoleprint.PrintFiveSeconds;
+            simulator.FinishEventHandler += consoleprint.PrintWhenFinish;
+            simulator.StartSimulation();
+
+            Console.ReadLine();
+
+
+
+            //TestClass test = new TestClass();
+            //test.EntityTest();
+        }
+
+        private static void ManualInputs()
         {
             Console.WriteLine("Welcome to KrankenHaus - 2000\n");
             Console.WriteLine("How many patients would you like to start with?");
@@ -53,17 +72,6 @@ namespace Start
                 default:
                     break;
             }
-            var simulator = new Simulator(IVADecrease, IVAIncrease, SanatoriumDecrease,SanatoriumIncrease,AmountOfPatients,AmountOfDoctors, QueueIncrease, QueueDecrease);
-            var consoleprint = new ConsolePrint();
-            simulator.ReportEventHandler += consoleprint.PrintFiveSeconds;
-            simulator.StartSimulation();
-            
-            Console.ReadLine();
-
-
-
-            //TestClass test = new TestClass();
-            //test.EntityTest();
         }
     }
 }
