@@ -12,7 +12,11 @@ namespace PrintManager.Print
 
         public void WriteToFile(string text)
         {
-            File.AppendAllText(fileName, text);
+            lock (this)
+            {
+                File.AppendAllText(fileName, text);
+            }
+            
         }
         
     }
