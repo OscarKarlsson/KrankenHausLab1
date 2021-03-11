@@ -44,13 +44,13 @@ namespace PrintManager.Print
             Console.ResetColor();
             if (args.Patient.CheckSicknessLevel() == 1)//Överlever
             {
-                string temp = $"{number} {args.Patient.ToString()} fully recovered! ";                              
+                string temp = $"{number} {args.Patient.ToString()} fully recovered!\n";                              
                 Console.WriteLine(temp);
                 printToLog.WriteToFile(temp);
             }
             else if(args.Patient.CheckSicknessLevel() == -1)//Död
             {
-                string temp = $"{number} {args.Patient.ToString()} died! ";
+                string temp = $"{number} {args.Patient.ToString()} died!\n";
                 Console.WriteLine(temp);
                 printToLog.WriteToFile(temp);
             }

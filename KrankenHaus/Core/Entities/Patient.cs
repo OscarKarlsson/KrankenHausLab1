@@ -58,7 +58,7 @@ namespace Core.Entities
         }
         public override string ToString()
         {
-                return $"{Name}     :    {DateOfBirth}";
+                return $"{Name}";
         }
     }
 }
