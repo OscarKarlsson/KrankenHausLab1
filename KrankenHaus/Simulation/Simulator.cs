@@ -10,7 +10,6 @@ namespace Simulation
 {
     public class Simulator
     {
-        public int MyProperty { get; set; }
         public Simulator(int IVAD, int IVAI, int SanaD, int SanaI, int Patients, int Doctors, int QueI, int QueD)
         {
             hospital = new Hospital(Patients, Doctors, QueI, QueD);
